@@ -8,12 +8,19 @@
 
 import UIKit
 
+/// 波浪动画View
 class WaveView: UIView {
+    /// 进度 默认0.5
     var progress: CGFloat = 0.5
-    var plus: Double = 0
-    lazy var baseY: CGFloat = self.frame.height/2
-    var disLink: CADisplayLink!
-    let lineColor = UIColor.init(red: 113/255.0, green: 205/255.0, blue: 250/255.0, alpha: 1)
+    /// 颜色
+    var color = UIColor(red: 113/255.0, green: 205/255.0, blue: 250/255.0, alpha: 1)
+    /// 每次绘制调整的X变化
+    private var plus: Double = 0
+    /// sin曲线的基准Y
+    private lazy var baseY: CGFloat = self.frame.height/2
+    /// 同步绘制定时器
+    private var disLink: CADisplayLink!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         disLink = CADisplayLink(target: self, selector: #selector(doDraw))
@@ -36,17 +43,16 @@ class WaveView: UIView {
         if baseY >= self.frame.height {
             baseY = self.frame.height
         }
-       setNeedsDisplay()
+        setNeedsDisplay()
     }
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-//        let context = UIGraphicsGetCurrentContext()
-//        context?.clear(rect)
-        
+        //let context = UIGraphicsGetCurrentContext()
+        //使用UIBezierPath比UIGraphicsGetCurrentContext更节省CPU
         let path = UIBezierPath()
         path.lineWidth = 1
-        lineColor.set()
+        color.set()
         path.move(to: CGPoint(x: 0, y: baseY))
         var y: CGFloat = baseY
         for x in (0..<(Int(rect.width))) {
@@ -59,6 +65,5 @@ class WaveView: UIView {
         path.addLine(to: CGPoint(x: 0, y: baseY))
         path.fill()
     }
- 
-
 }
+
