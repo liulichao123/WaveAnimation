@@ -55,7 +55,7 @@ class WaveView: UIView {
         color.set()
         path.move(to: CGPoint(x: 0, y: baseY))
         var y: CGFloat = baseY
-        for x in (0..<(Int(rect.width))) {
+        for x in (0...(Int(rect.width+0.5))) {
             let newX = Double(x)*0.04 - plus
             y = baseY - CGFloat(sin(newX))*7
             path.addLine(to: CGPoint(x: CGFloat(x), y: y))
